@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>投资委员会</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div>
+        <div class="brand-name">投资委员会</div>
+        <div class="brand-sub">多智能体投研系统</div>
+      </div>
+    </div>
+
+    <div class="user-card">
+      <div class="user-avatar">N</div>
+      <div class="user-name">Nero</div>
+      <div class="user-role">最终决策人</div>
+      <div class="user-motto">结论由我拍板</div>
+    </div>
+
+    <nav class="nav" id="nav">
+      <a data-page="treemap" class="active">大盘云图</a>
+      <a data-page="billboard">龙虎榜</a>
+      <a data-page="committee">投委会</a>
+      <a id="navSettings">设置</a>
+    </nav>
+
+    <div class="engine-badge" id="engineBadge">检测引擎中…</div>
+    <div class="sidebar-foot">仅供研究学习，不构成投资建议</div>
+  </aside>
+
+  <main class="main">
+
+    <!-- ============================================================ 大盘云图 -->
+    <section class="page active" id="page-treemap">
+      <header class="page-head">
+        <div>
+          <h1>大盘云图</h1>
+          <p class="page-sub">
+            面积代表规模，颜色代表涨跌幅，按板块分组。
+            <span id="tmMeta">加载中…</span>
+          </p>
+        </div>
+        <div class="page-actions">
+          <div class="seg" id="tmMarket">
+            <button class="seg-btn active" data-mkt="cn">A股</button>
+            <button class="seg-btn" data-mkt="us">美股</button>
+          </div>
+          <span class="pill live" id="tmAuto">自动刷新 30s</span>
+          <button class="ghost-btn" id="tmRefresh">立即刷新</button>
+        </div>
+      </header>
+
+      <div class="market-strip" id="mkStrip"></div>
+
+      <div class="treemap-wrap">
+        <svg class="treemap" id="treemap"></svg>
+        <div class="tm-tip" id="tmTip" hidden>
+          <div class="tip-head"><b id="tipName"></b><span class="tip-code" id="tipCode"></span></div>
+          <div class="tip-row" id="tipRow"></div>
+          <svg class="tip-spark" id="tipSpark" viewBox="0 0 220 54" preserveAspectRatio="none"></svg>
+          <div class="tip-foot">点击进入投委会分析</div>
+        </div>
+      </div>
+
+      <div class="tm-legend">
+        <span>涨跌幅</span>
+        <span class="lg-bar"></span>
+        <span>-10%</span><span>0</span><span>+10%</span>
+        <span class="lg-gap"></span>
+        <span id="tmHint">悬停看走势，点击进投委会</span>
+      </div>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>龙虎榜</h2>
+          <span class="counter" id="tmBbDate">—</span>
+        </div>
+        <div class="panel-body" id="tmBbBody">
+          <p class="empty">加载中…</p>
+        </div>
+      </section>
+    </section>
+
+    <!-- ============================================================== 龙虎榜 -->
+    <section class="page" id="page-billboard">
+      <header class="page-head">
+        <div>
+          <h1>龙虎榜</h1>
+          <p class="page-sub">点击任意一行展开买卖席位明细；点列头排序</p>
+        </div>
+        <div class="page-actions">
+          <span class="pill" id="bbDate">—</span>
+          <button class="ghost-btn" id="bbRefresh">刷新</button>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="panel-body table-scroll" id="bbTable">
+          <p class="empty">加载中…</p>
+        </div>
+      </section>
+    </section>
+
+    <!-- =============================================================== 投委会 -->
+    <section class="page" id="page-committee">
+
+      <header class="topbar">
+        <div class="topbar-row">
+          <div class="ticker-title">
+            <span id="tkName">—</span>
+            <span class="tk-code" id="tkCode"></span>
+            <span class="tag" id="tkMarket" hidden></span>
+          </div>
+          <div class="search">
+            <div class="search-box">
+              <input id="symbolInput" value="上证指数" autocomplete="off"
+                     placeholder="个股 / 板块 / 指数：600519 / 白酒 / 上证指数">
+              <div class="suggest" id="suggest" hidden></div>
+            </div>
+            <button class="ghost-btn" id="browseBtn">浏览板块</button>
+            <button id="runBtn">召开投委会</button>
+          </div>
+        </div>
+
+        <div class="topbar-row price-row">
+          <div class="price-block">
+            <span class="price" id="priceVal">—</span>
+            <span class="price-cur" id="priceCur"></span>
+            <span class="price-chg" id="priceChg"></span>
+          </div>
+          <div class="spark-wrap">
+            <svg class="spark" id="spark" viewBox="0 0 260 60" preserveAspectRatio="none"></svg>
+          </div>
+          <div class="quote-metrics" id="quoteMetrics"></div>
+        </div>
+      </header>
+
+      <div class="notice" id="notice" hidden></div>
+
+      <ol class="pipeline" id="pipeline">
+        <li data-stage="collect"><span class="dot"></span><span>数据采集</span></li>
+        <li data-stage="analyze"><span class="dot"></span><span>Agent 分析</span></li>
+        <li data-stage="debate"><span class="dot"></span><span>牛熊辩论</span></li>
+        <li data-stage="risk"><span class="dot"></span><span>风控评估</span></li>
+        <li data-stage="human"><span class="dot"></span><span>待我拍板</span></li>
+      </ol>
+
+      <div class="columns">
+
+        <section class="panel col-members">
+          <div class="panel-head">
+            <h2>投委会成员</h2>
+            <span class="counter" id="memberCount">0/8</span>
+          </div>
+          <div class="panel-body" id="memberList">
+            <p class="empty">尚未开始。<br>输入标的代码后召开投委会。</p>
+          </div>
+        </section>
+
+        <section class="panel col-transcript">
+          <div class="panel-head">
+            <h2>会议实录</h2>
+            <span class="live idle" id="liveTag">待开始</span>
+          </div>
+          <div class="panel-body transcript" id="transcript">
+            <p class="empty">八位委员将依次发言，多头与空头会进行结构化辩论。</p>
+          </div>
+        </section>
+
+        <section class="panel col-consensus">
+          <div class="panel-head"><h2>AI 共识 · 结论摘要</h2></div>
+          <div class="panel-body" id="consensus">
+            <p class="empty">辩论结束后生成。</p>
+          </div>
+        </section>
+
+      </div>
+
+      <footer class="decision">
+        <div class="decision-head">
+          <h2>最终决策</h2>
+          <span class="hint">AI 的意见仅供参考，最终由你决定</span>
+        </div>
+        <div class="decision-body">
+          <textarea id="decisionNote" placeholder="写下你的决策、理由或想法…"></textarea>
+          <div class="decision-actions">
+            <button class="btn-approve" data-action="approve">通过策略<small>按此执行</small></button>
+            <button class="btn-modify" data-action="modify">修改策略<small>调整后再议</small></button>
+            <button class="btn-reject" data-action="reject">驳回<small>暂不执行</small></button>
+          </div>
+        </div>
+        <div class="decision-status" id="decisionStatus" hidden></div>
+      </footer>
+
+    </section>
+
+  </main>
+</div>
+
+<div class="modal" id="sectorModal" hidden>
+  <div class="modal-card wide">
+    <div class="modal-head">
+      <h3>选择板块</h3>
+      <button class="icon-btn" id="sectorClose">×</button>
+    </div>
+    <p class="modal-note">
+      点击任意板块直接召开投委会。列表按当日涨跌幅排序；标「实时」的是刚同步的行情。
+      切标签页会保留搜索词。
+    </p>
+    <input id="sectorSearch" placeholder="搜索板块名称或代码，如 白酒 / 贵金属 / 沪金 / 885362">
+    <div class="tabs" id="sectorTabs">
+      <button class="tab active" data-type="industry">A股行业</button>
+      <button class="tab" data-type="concept">A股概念</button>
+      <button class="tab" data-type="commodity">贵金属·商品</button>
+      <button class="tab" data-type="us">美股板块</button>
+    </div>
+    <div class="sector-list" id="sectorList"></div>
+    <div class="modal-status" id="sectorStatus"></div>
+  </div>
+</div>
+
+<div class="modal" id="settingsModal" hidden>
+  <div class="modal-card">
+    <h3>接入大模型</h3>
+    <p class="modal-note">
+      不填 key 也可以跑：系统会退回到内置规则引擎，用真实行情和技术指标生成判断，
+      但分析深度不如大模型。推荐 DeepSeek（便宜）或智谱 glm-4-flash（有免费额度）。
+    </p>
+
+    <label>服务商
+      <select id="cfgProvider"></select>
+    </label>
+
+    <label>API Key
+      <input id="cfgKey" type="password" placeholder="留空则使用环境变量或规则引擎">
+    </label>
+
+    <label>模型名（可选，留空用默认）
+      <input id="cfgModel" placeholder="">
+    </label>
+
+    <label>接口地址（可选，仅自定义端点需要）
+      <input id="cfgBaseUrl" placeholder="">
+    </label>
+
+    <label>辩论轮次
+      <select id="cfgRounds">
+        <option value="1">1 轮（省 token）</option>
+        <option value="2">2 轮（推荐）</option>
+        <option value="3">3 轮（更充分，更贵）</option>
+      </select>
+    </label>
+
+    <div class="modal-actions">
+      <button class="ghost" id="cfgCancel">取消</button>
+      <button id="cfgSave">保存</button>
+    </div>
+    <div class="modal-status" id="cfgStatus"></div>
+  </div>
+</div>
+
+<script src="/static/app.js"></script>
+<script src="/static/pages.js"></script>
+</body>
+</html>

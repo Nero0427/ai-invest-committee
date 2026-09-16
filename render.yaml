@@ -1,0 +1,31 @@
+# Render blueprint. Point Render at this repository and it will pick up every
+# setting below; nothing needs to be typed into the dashboard.
+#
+# Two things worth knowing about the free plan:
+#   * the instance sleeps after 15 minutes idle, so the first visit after a
+#     quiet spell waits roughly 50 seconds for it to wake;
+#   * the filesystem is ephemeral - cache/ is rebuilt after every deploy or
+#     restart, which costs a few seconds on the first request and nothing after.
+services:
+  - type: web
+    name: ai-invest-committee
+    runtime: python
+    plan: free
+    # Singapore is the closest region to China; swap for oregon/ohio/frankfurt
+    # if that suits you better.
+    region: singapore
+    buildCommand: "echo 'no build step - standard library only'"
+    startCommand: "python server.py"
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      # Keeps every derived date (trading day, cache expiry, timestamps) on
+      # Beijing time instead of the container's UTC.
+      - key: TZ
+        value: Asia/Shanghai
+      # Optional. Set this in the Render dashboard to enable real model-backed
+      # analysis; without it the app falls back to the built-in rule engine.
+      # Never commit the value here.
+      - key: DEEPSEEK_API_KEY
+        sync: false

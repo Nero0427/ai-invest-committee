@@ -1,0 +1,22 @@
+# Runtime caches and derived data - rebuilt on first run
+cache/
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Editor / OS noise
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+
+# Never commit a filled-in key. config.json ships with an empty api_key and is
+# tracked on purpose; anything else holding a secret stays local.
+config.local.json
+.env

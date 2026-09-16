@@ -1,0 +1,5 @@
+# Nothing to install.
+#
+# The whole project runs on the Python standard library - no pip packages, no
+# build step. This file exists because hosting platforms look for it to work
+# out that a repository is a Python app at all.

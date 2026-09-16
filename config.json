@@ -1,0 +1,21 @@
+{
+  "llm": {
+    "provider": "deepseek",
+    "base_url": "",
+    "model": "",
+    "api_key": "",
+    "temperature": 0.7,
+    "timeout": 90,
+    "max_tokens": 1200
+  },
+  "committee": {
+    "debate_rounds": 3,
+    "risk_rounds": 1,
+    "language": "zh-CN"
+  },
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8848,
+    "open_browser": true
+  }
+}
