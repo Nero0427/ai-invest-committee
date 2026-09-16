@@ -100,10 +100,19 @@ python3 server.py
 
 ### Render（推荐，免费）
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Nero0427/ai-invest-committee)
+
+点上面的按钮，然后：**用 GitHub 登录 → 点 Apply**。就这两下。
+
+`render.yaml` 会被自动读取，端口、启动命令、Python 版本、时区、区域全都配好了，
+**不需要手填任何东西**。等 1–2 分钟构建完成，得到
+`https://ai-invest-committee.onrender.com`。
+
+手动路径也一样（如果按钮不好使）：
+
 1. 打开 [render.com](https://render.com)，用 GitHub 账号注册或登录
 2. **New → Blueprint**，选中 `ai-invest-committee` 仓库
-3. Render 会自动读到 `render.yaml`，直接点 **Apply**
-4. 等 1–2 分钟构建完成，得到 `https://ai-invest-committee.onrender.com`
+3. 点 **Apply**
 
 以后每次 `git push`，Render 自动重新部署，不用手动操作。
 
